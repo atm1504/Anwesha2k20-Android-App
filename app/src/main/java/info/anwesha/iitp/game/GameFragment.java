@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import java.util.zip.Inflater;
 
 import info.anwesha.iitp.R;
 
