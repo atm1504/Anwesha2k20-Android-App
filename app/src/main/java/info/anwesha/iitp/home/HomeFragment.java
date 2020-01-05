@@ -23,6 +23,7 @@ import java.util.Map;
 import info.anwesha.iitp.R;
 
 public class HomeFragment extends Fragment {
+    ImageView slideImage;
 
     public HomeFragment() {
     }
@@ -38,7 +39,10 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         ImageView imageView = view.findViewById(R.id.main_logo_iv);
+        slideImage=view.findViewById(R.id.mainImageArea);
+
         Glide.with(requireContext()).load(R.drawable.anwesha_logo_long_2).into(imageView);
+        Glide.with(requireContext()).load("http://anwesha.info/images/app/img1.jpg").centerCrop().into(slideImage);
 
         Map<Integer, Integer> map = new HashMap<>();
 
