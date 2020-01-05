@@ -20,14 +20,41 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Slider-->
-    <ImageView
-        android:id="@+id/mainImageArea"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+<!--    <ImageView-->
+<!--        android:id="@+id/mainImageArea"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="5"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/semi_circle"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="16dp"
+        android:layout_margin="6dp"
         android:layout_weight="5"
-        android:scaleType="centerCrop"
-        android:src="@drawable/semi_circle"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderAutoCycleEnabled="true"
+            app:sliderCircularHandlerEnabled="true"
+            app:sliderIndicatorAnimationDuration="600"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1"
+            app:sliderStartAutoCycle="true" />
+
+    </androidx.cardview.widget.CardView>
 
     <!-- Bottom View-->
     <LinearLayout
