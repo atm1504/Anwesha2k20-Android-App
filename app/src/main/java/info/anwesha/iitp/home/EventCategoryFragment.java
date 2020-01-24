@@ -35,6 +35,7 @@ public class EventCategoryFragment extends Fragment {
 
     public EventCategoryFragment() {
     }
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private EventsViewModel viewModel;
 
@@ -43,11 +44,20 @@ public class EventCategoryFragment extends Fragment {
     private View emptyView;
     private SharedPreferences preferences;
 
+    private String type = "competetion";
+
     private Context context;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        if (getArguments() != null) {
+//            type = getArguments().getString("type");
+//            Log.d("KHANKI", String.valueOf(getArguments().getBoolean("number")));
+//        } else {
+//            Log.d("KHANKI", "Failed");
+//        }
         setEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.fade));
         viewModel = ViewModelProviders.of(this).get(EventsViewModel.class);
         if (getContext() != null)
@@ -88,24 +98,47 @@ public class EventCategoryFragment extends Fragment {
     }
 
     private void observeAll() {
-        viewModel.loadEventsCategory().observe(this, strings -> {
 
-            List<String> temp = new ArrayList<>();
+        if (type == "events") {
+            viewModel.loadEventsCategory().observe(this, strings -> {
 
-            for (String s : strings)
-                if (!temp.contains(s))
-                    temp.add(s);
+                List<String> temp = new ArrayList<>();
 
-            adapter.setEventCategoryList(temp);
+                for (String s : strings)
+                    if (!temp.contains(s))
+                        temp.add(s);
 
-            if (strings.size() == 0) {
-                recyclerView.setVisibility(View.INVISIBLE);
-                emptyView.setVisibility(View.VISIBLE);
-            } else {
-                recyclerView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.INVISIBLE);
-            }
-        });
+                adapter.setEventCategoryList(temp);
+
+                if (strings.size() == 0) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.INVISIBLE);
+                }
+            });
+        } else {
+            viewModel.loadCompetetionsCategory().observe(this, strings -> {
+
+                List<String> temp = new ArrayList<>();
+
+                for (String s : strings)
+                    if (!temp.contains(s))
+                        temp.add(s);
+
+                adapter.setEventCategoryList(temp);
+
+                if (strings.size() == 0) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+
     }
 
     private void updateData() {
