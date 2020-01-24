@@ -54,9 +54,6 @@ public class EventCategoryFragment extends Fragment {
 
         if (getArguments() != null) {
             types = String.valueOf(getArguments().getString("type"));
-            Log.d("KHANKI", String.valueOf(getArguments().getString("type")));
-        } else {
-            Log.d("KHANKI", "Failed");
         }
         setEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.fade));
         viewModel = ViewModelProviders.of(this).get(EventsViewModel.class);
@@ -99,10 +96,7 @@ public class EventCategoryFragment extends Fragment {
 
     private void observeAll() {
 
-       Log.d("KHANKI", "type- "+ types);
-//
         if (types.equals("events")) {
-            Log.d("KHANKI", "this");
             viewModel.loadEventsCategory().observe(this, strings -> {
 
                 List<String> temp = new ArrayList<>();
@@ -122,7 +116,6 @@ public class EventCategoryFragment extends Fragment {
                 }
             });
         } else {
-            Log.d("KHANKI", "that");
             viewModel.loadCompetetionsCategory().observe(this, strings -> {
 
                 List<String> temp = new ArrayList<>();
