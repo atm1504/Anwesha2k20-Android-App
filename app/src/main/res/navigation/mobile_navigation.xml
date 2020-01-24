@@ -65,11 +65,11 @@
         android:label="Special Events"
         tools:layout="@layout/fragment_special_category" />
 
-    <fragment
-        android:id="@+id/nav_special_events"
-        android:name="info.anwesha.iitp.special.SpecialEventsFragment"
-        android:label="Special Events"
-        tools:layout="@layout/fragment_events" />
+<!--    <fragment-->
+<!--        android:id="@+id/nav_special_events"-->
+<!--        android:name="info.anwesha.iitp.special.SpecialEventsFragment"-->
+<!--        android:label="Special Events"-->
+<!--        tools:layout="@layout/fragment_events" />-->
 
 
     <fragment

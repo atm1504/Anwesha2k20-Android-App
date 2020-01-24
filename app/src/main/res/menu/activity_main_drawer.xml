@@ -39,10 +39,10 @@
             android:icon="@drawable/ic_pronite"
             android:title="Pronite" />
 
-        <item
-            android:id="@+id/nav_special_cat"
-            android:icon="@drawable/events_special"
-            android:title="Special Events" />
+<!--        <item-->
+<!--            android:id="@+id/nav_special_cat"-->
+<!--            android:icon="@drawable/events_special"-->
+<!--            android:title="Special Events" />-->
 
         <item
             android:id="@+id/nav_gallery"
