@@ -44,7 +44,7 @@ public class EventCategoryFragment extends Fragment {
     private View emptyView;
     private SharedPreferences preferences;
 
-    private String type = "competetion";
+    String types;
 
     private Context context;
 
@@ -52,12 +52,12 @@ public class EventCategoryFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (getArguments() != null) {
-//            type = getArguments().getString("type");
-//            Log.d("KHANKI", String.valueOf(getArguments().getBoolean("number")));
-//        } else {
-//            Log.d("KHANKI", "Failed");
-//        }
+        if (getArguments() != null) {
+            types = String.valueOf(getArguments().getString("type"));
+            Log.d("KHANKI", String.valueOf(getArguments().getString("type")));
+        } else {
+            Log.d("KHANKI", "Failed");
+        }
         setEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.fade));
         viewModel = ViewModelProviders.of(this).get(EventsViewModel.class);
         if (getContext() != null)
@@ -99,7 +99,10 @@ public class EventCategoryFragment extends Fragment {
 
     private void observeAll() {
 
-        if (type == "events") {
+       Log.d("KHANKI", "type- "+ types);
+//
+        if (types.equals("events")) {
+            Log.d("KHANKI", "this");
             viewModel.loadEventsCategory().observe(this, strings -> {
 
                 List<String> temp = new ArrayList<>();
@@ -119,6 +122,7 @@ public class EventCategoryFragment extends Fragment {
                 }
             });
         } else {
+            Log.d("KHANKI", "that");
             viewModel.loadCompetetionsCategory().observe(this, strings -> {
 
                 List<String> temp = new ArrayList<>();

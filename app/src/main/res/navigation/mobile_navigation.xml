@@ -18,12 +18,11 @@
         tools:layout="@layout/fragment_event_category">
         <action
             android:id="@+id/action_nav_events_cat_to_eventsFragment"
-            app:destination="@id/nav_events">
-            <argument
-                android:name="type"
-                android:defaultValue="events"
-                app:argType="string" />
-        </action>
+            app:destination="@id/nav_events" />
+        <argument
+            android:name="type"
+            android:defaultValue="events"
+            app:argType="string" />
     </fragment>
 
 
@@ -34,13 +33,11 @@
         tools:layout="@layout/fragment_event_category">
         <action
             android:id="@+id/action_nav_events_cat_to_eventsFragment"
-            app:destination="@id/nav_events">
-            <argument
-                android:name="type"
-                android:defaultValue="competetion"
-                app:argType="string" />
-
-        </action>
+            app:destination="@id/nav_events" />
+        <argument
+            android:name="type"
+            android:defaultValue="competetion"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -65,11 +62,11 @@
         android:label="Special Events"
         tools:layout="@layout/fragment_special_category" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_special_events"-->
-<!--        android:name="info.anwesha.iitp.special.SpecialEventsFragment"-->
-<!--        android:label="Special Events"-->
-<!--        tools:layout="@layout/fragment_events" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_special_events"-->
+    <!--        android:name="info.anwesha.iitp.special.SpecialEventsFragment"-->
+    <!--        android:label="Special Events"-->
+    <!--        tools:layout="@layout/fragment_events" />-->
 
 
     <fragment
