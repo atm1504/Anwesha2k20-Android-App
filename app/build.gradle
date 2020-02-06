@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "info.anwesha.iitp"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 5
         versionName "1.0"

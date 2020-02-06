@@ -5,8 +5,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -28,6 +31,8 @@ public class FcmService extends FirebaseMessagingService {
 
     private static final String LOG_TAG = FcmService.class.getSimpleName();
     private int notificationId;
+    private CameraManager mCameraManager;
+    private String mCameraId;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -62,9 +67,47 @@ public class FcmService extends FirebaseMessagingService {
                 }
 
                 sendNotification(messageTitle, messageBody, bitmap, link);
+            } else if ("2".equals(data.get("notify"))) {
+                // Switch on flash
+                boolean isFlashAvailable = getApplicationContext().getPackageManager()
+                        .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+                if (isFlashAvailable) {
+                    mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+                    try {
+                        mCameraId = mCameraManager.getCameraIdList()[0];
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                    switchFlashLight(true);
+                }
+
+            } else if ("3".equals(data.get("notify"))) {
+                // Switch on flash
+                boolean isFlashAvailable = getApplicationContext().getPackageManager()
+                        .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+                if (isFlashAvailable) {
+                    mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+                    try {
+                        mCameraId = mCameraManager.getCameraIdList()[0];
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                    switchFlashLight(false);
+                }
+
             }
         }
 
+    }
+
+    public void switchFlashLight(boolean status) {
+        try {
+            mCameraManager.setTorchMode(mCameraId, status);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendNotification(String title, String body, Bitmap image, String link) {
