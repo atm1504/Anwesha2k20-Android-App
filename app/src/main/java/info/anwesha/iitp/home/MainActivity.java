@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements EventsRecyclerAda
 
         FirebaseMessaging.getInstance().subscribeToTopic("all");
         FirebaseMessaging.getInstance().subscribeToTopic("dev");
+
+        populateHeaderView();
     }
 
 //    private void handleIntent(Intent appLinkIntent) {
@@ -144,12 +146,6 @@ public class MainActivity extends AppCompatActivity implements EventsRecyclerAda
 //        else navAccount.setTitle("Login/Register");
 
         new Handler().postDelayed(this::updateApp, 1000);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        new Handler().postDelayed(this::populateHeaderView, 200);
     }
 
     private void populateHeaderView() {
