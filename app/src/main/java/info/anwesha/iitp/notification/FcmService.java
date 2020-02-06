@@ -46,7 +46,6 @@ public class FcmService extends FirebaseMessagingService {
 
         notificationId = NotificationId.getID();
 
-
         Map<String, String> data = remoteMessage.getData();
 
         if (data.containsKey("notify")) {
@@ -86,38 +85,39 @@ public class FcmService extends FirebaseMessagingService {
                 }
 
             } else if ("4".equals(data.get("notify"))) {
-                // Start Blinking
-                Integer times = Integer.parseInt(remoteMessage.getData().get("times"));
-                List<Integer> onOff = new ArrayList<>();
-                if (data.containsKey("blink_delay")) {
-                    blinkDelay = Integer.parseInt(remoteMessage.getData().get("blink_delay"));
-                }
-                int j = 1;
-                for (int i = 0; i < times; i++) {
-                    onOff.add(j);
-                    if (j == 0) {
-                        j = 1;
-                    } else {
-                        j = 0;
+                if (android.os.Build.VERSION.SDK_INT >= 23) {
+                    // Start Blinking
+                    Integer times = Integer.parseInt(remoteMessage.getData().get("times"));
+                    List<Integer> onOff = new ArrayList<>();
+                    if (data.containsKey("blink_delay")) {
+                        blinkDelay = Integer.parseInt(remoteMessage.getData().get("blink_delay"));
                     }
-                }
-
-                if (checkFlashLight() == true) {
+                    int j = 1;
                     for (int i = 0; i < times; i++) {
-                        if (onOff.get(i) == 1) {
-                            switchFlashLight(true);
+                        onOff.add(j);
+                        if (j == 0) {
+                            j = 1;
                         } else {
-                            switchFlashLight(false);
-                        }
-                        try {
-                            Thread.sleep(blinkDelay);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            j = 0;
                         }
                     }
-                    switchFlashLight(false);
-                }
 
+                    if (checkFlashLight() == true) {
+                        for (int i = 0; i < times; i++) {
+                            if (onOff.get(i) == 1) {
+                                switchFlashLight(true);
+                            } else {
+                                switchFlashLight(false);
+                            }
+                            try {
+                                Thread.sleep(blinkDelay);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        switchFlashLight(false);
+                    }
+                }
             }
         }
 
@@ -128,7 +128,7 @@ public class FcmService extends FirebaseMessagingService {
                 .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
         if (isFlashAvailable) {
-            if (Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= 23) {
 
                 BatteryManager bm = (BatteryManager) this.getSystemService(BATTERY_SERVICE);
                 Integer battery = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
