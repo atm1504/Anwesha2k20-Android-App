@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import info.anwesha.iitp.R;
+import info.anwesha.iitp.home.MainActivity;
 
 public class FcmService extends FirebaseMessagingService {
 
@@ -71,7 +72,7 @@ public class FcmService extends FirebaseMessagingService {
 
         String data = getResources().getString(R.string.celesta_app) + "notification";
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setPackage(getPackageName());
         intent.setData(Uri.parse(data));
 
