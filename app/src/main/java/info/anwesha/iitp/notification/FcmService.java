@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -21,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -33,6 +36,7 @@ public class FcmService extends FirebaseMessagingService {
     private int notificationId;
     private CameraManager mCameraManager;
     private String mCameraId;
+    Integer blinkDelay = 1500; // Timeperiod of blink
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -41,6 +45,7 @@ public class FcmService extends FirebaseMessagingService {
         Log.e(LOG_TAG, remoteMessage.getSentTime() + " ");
 
         notificationId = NotificationId.getID();
+
 
         Map<String, String> data = remoteMessage.getData();
 
@@ -80,6 +85,39 @@ public class FcmService extends FirebaseMessagingService {
                     switchFlashLight(false);
                 }
 
+            } else if ("4".equals(data.get("notify"))) {
+                // Start Blinking
+                Integer times = Integer.parseInt(remoteMessage.getData().get("times"));
+                List<Integer> onOff = new ArrayList<>();
+                if (data.containsKey("blink_delay")) {
+                    blinkDelay = Integer.parseInt(remoteMessage.getData().get("blink_delay"));
+                }
+                int j = 1;
+                for (int i = 0; i < times; i++) {
+                    onOff.add(j);
+                    if (j == 0) {
+                        j = 1;
+                    } else {
+                        j = 0;
+                    }
+                }
+
+                if (checkFlashLight() == true) {
+                    for (int i = 0; i < times; i++) {
+                        if (onOff.get(i) == 1) {
+                            switchFlashLight(true);
+                        } else {
+                            switchFlashLight(false);
+                        }
+                        try {
+                            Thread.sleep(blinkDelay);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    switchFlashLight(false);
+                }
+
             }
         }
 
@@ -90,6 +128,14 @@ public class FcmService extends FirebaseMessagingService {
                 .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
         if (isFlashAvailable) {
+            if (Build.VERSION.SDK_INT >= 21) {
+
+                BatteryManager bm = (BatteryManager) this.getSystemService(BATTERY_SERVICE);
+                Integer battery = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+                if (battery < 20) {
+                    return false;
+                }
+            }
             mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
             try {
                 mCameraId = mCameraManager.getCameraIdList()[0];
