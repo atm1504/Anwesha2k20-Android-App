@@ -149,10 +149,12 @@ public class FcmService extends FirebaseMessagingService {
     }
 
     public void switchFlashLight(boolean status) {
-        try {
-            mCameraManager.setTorchMode(mCameraId, status);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
+        if (Build.VERSION.SDK_INT >= 23) {
+            try {
+                mCameraManager.setTorchMode(mCameraId, status);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 
