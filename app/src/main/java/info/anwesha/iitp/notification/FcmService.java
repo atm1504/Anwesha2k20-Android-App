@@ -69,36 +69,36 @@ public class FcmService extends FirebaseMessagingService {
                 sendNotification(messageTitle, messageBody, bitmap, link);
             } else if ("2".equals(data.get("notify"))) {
                 // Switch on flash
-                boolean isFlashAvailable = getApplicationContext().getPackageManager()
-                        .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-
-                if (isFlashAvailable) {
-                    mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-                    try {
-                        mCameraId = mCameraManager.getCameraIdList()[0];
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
+                if (checkFlashLight() == true) {
                     switchFlashLight(true);
                 }
 
-            } else if ("3".equals(data.get("notify"))) {
-                // Switch on flash
-                boolean isFlashAvailable = getApplicationContext().getPackageManager()
-                        .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-                if (isFlashAvailable) {
-                    mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-                    try {
-                        mCameraId = mCameraManager.getCameraIdList()[0];
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
+            } else if ("3".equals(data.get("notify"))) {
+                // Switch off Flash
+                if (checkFlashLight() == true) {
                     switchFlashLight(false);
                 }
 
             }
         }
+
+    }
+
+    public boolean checkFlashLight() {
+        boolean isFlashAvailable = getApplicationContext().getPackageManager()
+                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+        if (isFlashAvailable) {
+            mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            try {
+                mCameraId = mCameraManager.getCameraIdList()[0];
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
 
     }
 
